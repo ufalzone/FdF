@@ -6,7 +6,7 @@
 #    By: ufalzone <ufalzone@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/30 18:16:42 by ufalzone          #+#    #+#              #
-#    Updated: 2024/12/02 18:45:12 by ufalzone         ###   ########.fr        #
+#    Updated: 2024/12/03 23:02:11 by ufalzone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ OBJ_FILES = $(SRC_FILES:.c=.o)
 
 # Flags de compilation
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I$(INCLUDE_DIR) -I$(MLX_DIR) -g
+CFLAGS =  -Wall -Wextra -Werror -I$(INCLUDE_DIR) -I$(MLX_DIR) -g -O3
 LDFLAGS = -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
 
 # Librairie libft
