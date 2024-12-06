@@ -6,7 +6,7 @@
 /*   By: ufalzone <ufalzone@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 20:47:11 by ufalzone          #+#    #+#             */
-/*   Updated: 2024/12/03 22:59:20 by ufalzone         ###   ########.fr       */
+/*   Updated: 2024/12/05 18:13:23 by ufalzone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,15 @@
 # define HEIGHT 1000
 #endif
 
+#define INT_MAX 2147483647
+#define INT_MIN -2147483648
+
 typedef struct s_point
 {
 	int		 x; // Position X
 	int		 y; // Position Y
 	int		 z; // Altitude
-	int			 color; // Couleur
+	float		 color; // Couleur
 }	t_point;
 
 typedef struct s_map
@@ -48,16 +51,18 @@ typedef struct s_map
 typedef struct s_fdf {
     void    *mlx;       // Pointeur MLX
     void    *win;       // Fenêtre MLX
-    t_map   map;        // La carte (déjà définie)
+    void    *img;       // Image MLX
+	char    *addr;          // Adresse de la mémoire brute de l'image
+    int     bits_per_pixel; // Nombre de bits par pixel
+    int     size_line;      // Taille d'une ligne en octets
+    int     endian;         // Endianess (ordre des octets)
+    t_map   map;        // La carte
     int     zoom;       // Facteur de zoom
     int     offset_x;   // Décalage horizontal
     int     offset_y;   // Décalage vertical
 	int		is_right_clicked;	// Booléen pour savoir si le bouton droit est cliqué
 	int		last_x;		// Position X du dernier clic droit
 	int		last_y;		// Position Y du dernier clic droit
-	int		is_left_clicked;	// Booléen pour savoir si le bouton gauche est cliqué
-	int		last_x_left;	// Position X du dernier clic gauche
-	int		last_y_left;	// Position Y du dernier clic gauche
 	int		angle_iso;		// Angle de projection isométrique
 	float		angle_z;		// Angle de rotation en Z
 	float		angle_x;		// Angle de rotation en X
@@ -69,5 +74,5 @@ typedef struct s_fdf {
 
 
 t_map	parse_map(char *filename);
-int		get_color(int x);
+int		get_color(t_map *map, int x);
 #endif

@@ -6,7 +6,7 @@
 /*   By: ufalzone <ufalzone@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:40:49 by ufalzone          #+#    #+#             */
-/*   Updated: 2024/12/03 23:07:12 by ufalzone         ###   ########.fr       */
+/*   Updated: 2024/12/06 14:01:22 by ufalzone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,72 +112,81 @@ void	trace_line(void *mlx, void *win, int x0, int y0, int x1, int y1,
 
 void	all_lines(t_fdf *fdf)
 {
-    int	i;
-    int	j;
-	    int x1_projection;
-    int y1_projection;
-    int x2_projection;
-    int y2_projection;
-    int	total_points;
-    int	current_point;
-    
-    total_points = fdf->map.width * fdf->map.height;
-    current_point = 0;
-    
-    ft_printf("\033[H\033[J");  // Efface le terminal
-    ft_printf("Calcul des points en cours...\n");
-    
-    i = 0;
-    while (i < fdf->map.height)
-    {
-        j = 0;
-        while (j < fdf->map.width)
-        {
-            // Projection isométrique
-            x1_projection = (fdf->map.grid[i][j].x * fdf->zoom - fdf->map.grid[i][j].y * fdf->zoom) * cos(fdf->angle_iso * M_PI / 180);
-            y1_projection = (fdf->map.grid[i][j].x * fdf->zoom + fdf->map.grid[i][j].y * fdf->zoom) * sin(fdf->angle_iso * M_PI / 180) - fdf->map.grid[i][j].z / fdf->z_divisor * fdf->zoom;
+	int	i;
+	int	j;
+	int	x1_projection;
+	int	y1_projection;
+	int	x2_projection;
+	int	y2_projection;
+	int	total_points;
+	int	current_point;
 
-            // Centrage de l'image
-            x1_projection += (WEIGHT - fdf->map.width * fdf->zoom) / 2 + fdf->offset_x;
-            y1_projection += (HEIGHT - fdf->map.height * fdf->zoom) / 2 + fdf->offset_y;
-
-            // Tracé horizontal (vers le point à droite)
-            if (j + 1 < fdf->map.width)
-            {
-
-                // Projection isométrique
-                x2_projection = (fdf->map.grid[i][j + 1].x * fdf->zoom - fdf->map.grid[i][j + 1].y * fdf->zoom) * cos(fdf->angle_iso * M_PI / 180);
-                y2_projection = (fdf->map.grid[i][j + 1].x * fdf->zoom + fdf->map.grid[i][j + 1].y * fdf->zoom) * sin(fdf->angle_iso * M_PI / 180) - fdf->map.grid[i][j + 1].z / fdf->z_divisor * fdf->zoom;
-
-                // Centrage de l'image
-                x2_projection += (WEIGHT - fdf->map.width * fdf->zoom) / 2 + fdf->offset_x;
-                y2_projection += (HEIGHT - fdf->map.height * fdf->zoom) / 2 + fdf->offset_y;
-
-                // Tracer la ligne horizontale
-                trace_line(fdf->mlx, fdf->win, x1_projection, y1_projection, x2_projection, y2_projection, fdf->map.grid[i][j].color);
-            }
-
-            // Tracé vertical (vers le point en bas)
-            if (i + 1 < fdf->map.height)
-            {
-                // Projection isométrique
-                x2_projection = (fdf->map.grid[i + 1][j].x * fdf->zoom - fdf->map.grid[i + 1][j].y * fdf->zoom) * cos(fdf->angle_iso * M_PI / 180);
-                y2_projection = (fdf->map.grid[i + 1][j].x * fdf->zoom + fdf->map.grid[i + 1][j].y * fdf->zoom) * sin(fdf->angle_iso * M_PI / 180) - fdf->map.grid[i + 1][j].z / fdf->z_divisor * fdf->zoom;
-
-                // Centrage de l'image
-                x2_projection += (WEIGHT - fdf->map.width * fdf->zoom) / 2 + fdf->offset_x;
-                y2_projection += (HEIGHT - fdf->map.height * fdf->zoom) / 2 + fdf->offset_y;
-
-                // Tracer la ligne verticale
-                trace_line(fdf->mlx, fdf->win, x1_projection, y1_projection, x2_projection, y2_projection, fdf->map.grid[i][j].color);
-            }
-            j++;
-        }
-        i++;
-    }
-    ft_printf("\nRendu terminé !\n");
+	total_points = fdf->map.width * fdf->map.height;
+	current_point = 0;
+	i = 0;
+	while (i < fdf->map.height)
+	{
+		j = 0;
+		while (j < fdf->map.width)
+		{
+			// Projection isométrique
+			x1_projection = (fdf->map.grid[i][j].x * fdf->zoom
+					- fdf->map.grid[i][j].y * fdf->zoom) * cos(fdf->angle_iso
+					* M_PI / 180);
+			y1_projection = (fdf->map.grid[i][j].x * fdf->zoom
+					+ fdf->map.grid[i][j].y * fdf->zoom) * sin(fdf->angle_iso
+					* M_PI / 180) - fdf->map.grid[i][j].z / fdf->z_divisor
+				* fdf->zoom;
+			// Centrage de l'image
+			x1_projection += (WEIGHT - fdf->map.width * fdf->zoom) / 2
+				+ fdf->offset_x;
+			y1_projection += (HEIGHT - fdf->map.height * fdf->zoom) / 2
+				+ fdf->offset_y;
+			// Tracé horizontal (vers le point à droite)
+			if (j + 1 < fdf->map.width)
+			{
+				// Projection isométrique
+				x2_projection = (fdf->map.grid[i][j + 1].x * fdf->zoom
+						- fdf->map.grid[i][j + 1].y * fdf->zoom)
+					* cos(fdf->angle_iso * M_PI / 180);
+				y2_projection = (fdf->map.grid[i][j + 1].x * fdf->zoom
+						+ fdf->map.grid[i][j + 1].y * fdf->zoom)
+					* sin(fdf->angle_iso * M_PI / 180) - fdf->map.grid[i][j
+					+ 1].z / fdf->z_divisor * fdf->zoom;
+				// Centrage de l'image
+				x2_projection += (WEIGHT - fdf->map.width * fdf->zoom) / 2
+					+ fdf->offset_x;
+				y2_projection += (HEIGHT - fdf->map.height * fdf->zoom) / 2
+					+ fdf->offset_y;
+				// Tracer la ligne horizontale
+				trace_line(fdf->mlx, fdf->win, x1_projection, y1_projection,
+					x2_projection, y2_projection, fdf->map.grid[i][j].color);
+			}
+			// Tracé vertical (vers le point en bas)
+			if (i + 1 < fdf->map.height)
+			{
+				// Projection isométrique
+				x2_projection = (fdf->map.grid[i + 1][j].x * fdf->zoom
+						- fdf->map.grid[i + 1][j].y * fdf->zoom)
+					* cos(fdf->angle_iso * M_PI / 180);
+				y2_projection = (fdf->map.grid[i + 1][j].x * fdf->zoom
+						+ fdf->map.grid[i + 1][j].y * fdf->zoom)
+					* sin(fdf->angle_iso * M_PI / 180) - fdf->map.grid[i
+					+ 1][j].z / fdf->z_divisor * fdf->zoom;
+				// Centrage de l'image
+				x2_projection += (WEIGHT - fdf->map.width * fdf->zoom) / 2
+					+ fdf->offset_x;
+				y2_projection += (HEIGHT - fdf->map.height * fdf->zoom) / 2
+					+ fdf->offset_y;
+				// Tracer la ligne verticale
+				trace_line(fdf->mlx, fdf->win, x1_projection, y1_projection,
+					x2_projection, y2_projection, fdf->map.grid[i][j].color);
+			}
+			j++;
+		}
+		i++;
+	}
 }
-
 
 // int	deplacement(void *mlx, void *win, t_map map, int zoom)
 // {
@@ -186,14 +195,14 @@ void	all_lines(t_fdf *fdf)
 // }
 
 // Deplacement avec les touches
-//Fleche gauche et A pour gauche
-//Fleche droite et D pour droite
-//Fleche haut et W pour haut
-//Fleche bas et S pour bas
-//Fleche + pour zoom
-//Fleche - pour dezoom
-//Angle Projection Isométrique = 1 = 2D
-//Angle Projection Isométrique = 0 = 3D
+// Fleche gauche et A pour gauche
+// Fleche droite et D pour droite
+// Fleche haut et W pour haut
+// Fleche bas et S pour bas
+// Fleche + pour zoom
+// Fleche - pour dezoom
+// Angle Projection Isométrique = 1 = 2D
+// Angle Projection Isométrique = 0 = 3D
 
 int	deplacement(int keycode, t_fdf *fdf)
 {
@@ -209,9 +218,9 @@ int	deplacement(int keycode, t_fdf *fdf)
 		fdf->zoom += 1;
 	else if (keycode == 45)
 		fdf->zoom -= 1;
-	else if (keycode == 49) // Touche '1'
-		fdf->angle_iso = 0; // Angle isométrique pour 2D
-	else if (keycode == 50) // Touche '2'
+	else if (keycode == 49)  // Touche '1'
+		fdf->angle_iso = 0;  // Angle isométrique pour 2D
+	else if (keycode == 50)  // Touche '2'
 		fdf->angle_iso = 30; // Angle isométrique pour 3D
 	else if (keycode == 111) // Touche 'o'
 	{
@@ -220,12 +229,15 @@ int	deplacement(int keycode, t_fdf *fdf)
 	}
 	else if (keycode == 112) // Touche 'p'
 		fdf->z_divisor += 1;
-	else if (keycode == 122) // Touche 'z'
-		fdf->angle_z += 1; // Incrémente l'angle de rotation autour de l'axe Z
-	else if (keycode == 121) // Touche 'y'
-		fdf->angle_y += 1; // Incrémente l'angle de rotation autour de l'axe Y
-	else if (keycode == 120) // Touche 'x'
-		fdf->angle_x += 1; // Incrémente l'angle de rotation autour de l'axe X
+	else if (keycode == 122)   // Touche 'z'
+		fdf->angle_z += 1;    
+			// Incrémente l'angle de rotation autour de l'axe Z
+	else if (keycode == 121)   // Touche 'y'
+		fdf->angle_y += 1;    
+			// Incrémente l'angle de rotation autour de l'axe Y
+	else if (keycode == 120)   // Touche 'x'
+		fdf->angle_x += 1;    
+			// Incrémente l'angle de rotation autour de l'axe X
 	else if (keycode == 65307) // Échap pour quitter
 		exit(0);
 	// Efface la fenêtre et redessine tout
@@ -284,16 +296,20 @@ int	deplacement_mouse(int x, int y, t_fdf *fdf)
 	{
 		fdf->offset_x += (x - fdf->last_x);
 		fdf->offset_y += (y - fdf->last_y);
-
 		mlx_clear_window(fdf->mlx, fdf->win);
 		all_lines(fdf);
 		fdf->last_x = x;
-		fdf->last_y = y;	
+		fdf->last_y = y;
 	}
 	return (0);
 }
 
-
+// void	test_image(t_fdf *fdf)
+// {
+// 	fdf->img = mlx_new_image(fdf->mlx, WEIGHT, HEIGHT);
+// 	fdf->addr = mlx_get_data_addr(fdf->img, int *bits_per_pixel, int *size_line,
+// 			int *endian)
+// }
 
 int	main(int ac, char **av)
 {
@@ -313,12 +329,18 @@ int	main(int ac, char **av)
 	fdf.angle_x = 0;
 	fdf.angle_y = 0;
 	fdf.angle_z = 0;
+	fdf.img = mlx_new_image(fdf.mlx, WEIGHT, HEIGHT);
+	fdf.addr = mlx_get_data_addr(fdf.img, &fdf.bits_per_pixel, &fdf.size_line, &fdf.endian);
+	// test_image(&fdf);
 	all_lines(&fdf);
-	mlx_key_hook(fdf.win, &deplacement, &fdf);        
-		// Deplacement avec les touches
-	mlx_hook(fdf.win, 4, (1L<<2), &mouse_pressed, &fdf);     // Clic souris pressé
-	mlx_hook(fdf.win, 5, (1L<<3), &mouse_released, &fdf);    // Clic souris relâché
-	mlx_hook(fdf.win, 6, (1L<<6), &deplacement_mouse, &fdf); // Mouvement de la souris
+	mlx_key_hook(fdf.win, &deplacement, &fdf);
+	// Deplacement avec les touches
+	mlx_hook(fdf.win, 4, (1L << 2), &mouse_pressed, &fdf);    
+		// Clic souris pressé
+	mlx_hook(fdf.win, 5, (1L << 3), &mouse_released, &fdf);   
+		// Clic souris relâché
+	mlx_hook(fdf.win, 6, (1L << 6), &deplacement_mouse, &fdf);
+		// Mouvement de la souris
 	mlx_loop(fdf.mlx);
 	return (0);
 }
