@@ -6,48 +6,16 @@
 /*   By: ufalzone <ufalzone@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:28:58 by ufalzone          #+#    #+#             */
-/*   Updated: 2024/12/05 18:08:32 by ufalzone         ###   ########.fr       */
+/*   Updated: 2024/12/06 18:18:06 by ufalzone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 #include <fcntl.h>
 #include <math.h>
-#include <stdio.h>
-int	get_color(t_map *map, int value)
-{
-	float	normalized_value;
 
-	if (map->z_max == map->z_min)
-		normalized_value = 0;
-	else
-		normalized_value = (float)(value - map->z_min) / (map->z_max - map->z_min);
-	printf("%f", normalized_value);
-	if (normalized_value == 0)
-		return (0xFFDAB9); // Orange pêche
-	else if (normalized_value <= 0.1)
-		return (0xFFB6C1); // Rose clair
-	else if (normalized_value <= 0.2)
-		return (0xFFA07A); // Orange saumon clair
-	else if (normalized_value <= 0.3)
-		return (0xFF8C69); // Orange saumon
-	else if (normalized_value <= 0.4)
-		return (0xFF69B4); // Rose vif
-	else if (normalized_value <= 0.5)
-		return (0xFF1493); // Rose profond
-	else if (normalized_value <= 0.6)
-		return (0xDA70D6); // Orchidée moyen
-	else if (normalized_value <= 0.7)
-		return (0xBA55D3); // Orchidée
-	else if (normalized_value <= 0.8)
-		return (0x9370DB); // Violet moyen
-	else if (normalized_value <= 0.9)
-		return (0x8A2BE2); // Bleu violet
-	else
-		return (0x800080); // Violet
-}
-
-t_map	get_dimensions(char *filename)
+// Obtenir les dimensions de la map
+static t_map	get_dimensions(char *filename)
 {
 	t_map	map;
 	int		fd;
@@ -67,12 +35,13 @@ t_map	get_dimensions(char *filename)
 		line = get_next_line(fd);
 		map.height++;
 	}
-	// free_split(split);
+	free_split(split);
 	close(fd);
 	return (map);
 }
 
-t_map	allocate_map(t_map map)
+// Allocation de la map
+static t_map	allocate_map(t_map map)
 {
 	int	i;
 
@@ -90,7 +59,8 @@ t_map	allocate_map(t_map map)
 	return (map);
 }
 
-t_map	fill_map(t_map map, char *filename)
+// Remplir la map
+static t_map	fill_map(t_map map, char *filename)
 {
 	int		fd;
 	char	*line;
@@ -115,11 +85,12 @@ t_map	fill_map(t_map map, char *filename)
 		free(line);
 		j++;
 	}
+	free_split(split);
 	return (close(fd), map);
 }
-#include <stdio.h>
 
-void	get_z_min_max(t_map *map, char *filename)
+// Obtenir Z min et max pour color
+static void	get_z_min_max(t_map *map, char *filename)
 {
 	int		fd;
 	char	*line;
@@ -139,14 +110,15 @@ void	get_z_min_max(t_map *map, char *filename)
 			z = ft_atoi(split[i]);
 			map->z_min = fmin(map->z_min, z);
 			map->z_max = fmax(map->z_max, z);
-			printf("%d, %d\n", map->z_max, map->z_min);
 			i++;
 		}
 		free(line);
+		free_split(split);
 	}
 	close(fd);
 }
 
+// Fonction principale de parsing
 t_map	parse_map(char *filename)
 {
 	t_map	map;
