@@ -6,7 +6,7 @@
 #    By: ufalzone <ufalzone@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/12 21:45:31 by ufalzone          #+#    #+#              #
-#    Updated: 2024/11/30 19:09:08 by ufalzone         ###   ########.fr        #
+#    Updated: 2024/12/07 14:42:16 by ufalzone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,8 @@ SRC = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
       ft_lstadd_back_bonus.c ft_lstadd_front_bonus.c ft_lstclear_bonus.c \
       ft_lstdelone_bonus.c ft_lstiter_bonus.c ft_lstlast_bonus.c \
       ft_lstmap_bonus.c ft_lstnew_bonus.c ft_lstsize_bonus.c \
-      get_next_line.c get_next_line_utils.c
+      get_next_line.c get_next_line_utils.c \
+      free_split.c
 
 # Objets
 OBJ = $(SRC:.c=.o)
@@ -56,7 +57,7 @@ BONUS_OBJ = $(BONUS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@echo "$(BLUE)🔨 Création de la bibliothèque $(NAME)...$(RESET)"
+	@echo "\n$(BLUE)🔨 Création de la bibliothèque $(NAME)...$(RESET)"
 	@ar rcs $(NAME) $(OBJ)
 	@echo "$(GREEN)✨ La bibliothèque $(NAME) est prête !$(RESET)"
 
@@ -66,7 +67,7 @@ bonus: $(OBJ) $(BONUS_OBJ)
 	@echo "$(GREEN)🌟 Les bonus ont été ajoutés avec succès !$(RESET)"
 
 %.o: %.c $(INCDIR)/libft.h $(INCDIR)/ft_printf.h
-	@echo "$(CYAN)📝 Compilation de $<...$(RESET)"
+	@printf "\r\033[K$(CYAN)📝 Compilation de $<...$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

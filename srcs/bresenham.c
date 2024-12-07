@@ -6,35 +6,36 @@
 /*   By: ufalzone <ufalzone@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 16:54:03 by ufalzone          #+#    #+#             */
-/*   Updated: 2024/12/06 18:15:28 by ufalzone         ###   ########.fr       */
+/*   Updated: 2024/12/07 17:34:52 by ufalzone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-// Calcule l'adresse de la pixel et le colorie
-static void	addr_pixel_calculation(t_fdf *fdf, int x0, int y0, int color)
+// Calcule l'adresse du pixel et le colorie
+static void	addr_pixel_calculation(t_fdf *fdf, t_point *point)
 {
 	char	*addr_pixel;
 
-	if (x0 >= 0 && x0 < WEIGHT && y0 >= 0 && y0 < HEIGHT)
+	if (point->x >= 0 && point->x < WEIGHT && point->y >= 0
+		&& point->y < HEIGHT)
 	{
-		addr_pixel = fdf->addr + (y0 * fdf->size_line) + (x0
+		addr_pixel = fdf->addr + (point->y * fdf->size_line) + (point->x
 				* (fdf->bits_per_pixel / 8));
-		*(unsigned int *)addr_pixel = color;
+		*(unsigned int *)addr_pixel = point->color;
 	}
 }
-    
+
 // Pente raide
-void	trace_ligne_high(t_fdf *fdf, int x0, int y0, int x1, int y1, int color)
+static void	trace_ligne_high(t_fdf *fdf, t_point start, t_point end)
 {
 	int	dx;
 	int	dy;
 	int	xi;
 	int	error;
 
-	dx = x1 - x0;
-	dy = y1 - y0;
+	dx = end.x - start.x;
+	dy = end.y - start.y;
 	xi = 1;
 	if (dx < 0)
 	{
@@ -42,29 +43,29 @@ void	trace_ligne_high(t_fdf *fdf, int x0, int y0, int x1, int y1, int color)
 		dx = -dx;
 	}
 	error = 2 * dx - dy;
-	while (y0 <= y1)
+	while (start.y <= end.y)
 	{
-		addr_pixel_calculation(fdf, x0, y0, color);
+		addr_pixel_calculation(fdf, &start);
 		if (error > 0)
 		{
-			x0 += xi;
-			error = error - 2 * dy;
+			start.x += xi;
+			error -= 2 * dy;
 		}
 		error = error + 2 * dx;
-		y0++;
+		start.y++;
 	}
 }
 
 // Pente douce
-void	trace_ligne_low(t_fdf *fdf, int x0, int y0, int x1, int y1, int color)
+static void	trace_ligne_low(t_fdf *fdf, t_point start, t_point end)
 {
 	int	dx;
 	int	dy;
 	int	yi;
 	int	error;
 
-	dx = x1 - x0;
-	dy = y1 - y0;
+	dx = end.x - start.x;
+	dy = end.y - start.y;
 	yi = 1;
 	if (dy < 0)
 	{
@@ -72,34 +73,34 @@ void	trace_ligne_low(t_fdf *fdf, int x0, int y0, int x1, int y1, int color)
 		dy = -dy;
 	}
 	error = 2 * dy - dx;
-	while (x0 <= x1)
+	while (start.x <= end.x)
 	{
-		addr_pixel_calculation(fdf, x0, y0, color);
+		addr_pixel_calculation(fdf, &start);
 		if (error > 0)
 		{
-			y0 += yi;
+			start.y += yi;
 			error = error - 2 * dx;
 		}
 		error = error + 2 * dy;
-		x0++;
+		start.x++;
 	}
 }
 
 // Determine la pente de la ligne et trace la ligne en fonction de la pente
-void	trace_line(t_fdf *fdf, int x0, int y0, int x1, int y1, int color)
+void	trace_line(t_fdf *fdf, t_point start, t_point end)
 {
-	if (abs(y1 - y0) < abs(x1 - x0))
+	if (abs(end.y - start.y) < abs(end.x - start.x))
 	{
-		if (x0 > x1)
-			trace_ligne_low(fdf, x1, y1, x0, y0, color);
+		if (start.x > end.x)
+			trace_ligne_low(fdf, end, start);
 		else
-			trace_ligne_low(fdf, x0, y0, x1, y1, color);
+			trace_ligne_low(fdf, start, end);
 	}
 	else
 	{
-		if (y0 > y1)
-			trace_ligne_high(fdf, x1, y1, x0, y0, color);
+		if (start.y > end.y)
+			trace_ligne_high(fdf, end, start);
 		else
-			trace_ligne_high(fdf, x0, y0, x1, y1, color);
+			trace_ligne_high(fdf, start, end);
 	}
 }

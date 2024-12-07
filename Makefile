@@ -6,7 +6,7 @@
 #    By: ufalzone <ufalzone@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/30 18:16:42 by ufalzone          #+#    #+#              #
-#    Updated: 2024/12/03 23:02:11 by ufalzone         ###   ########.fr        #
+#    Updated: 2024/12/07 17:46:44 by ufalzone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,14 +40,11 @@ LDFLAGS = -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
 LIBFT = $(LIBFT_DIR)/libft.a
 MLX = $(MLX_DIR)/libmlx.a
 
-# Choose the correct flags based on your system (uncomment the one you need):
-# For Linux:
+# Flags pour la MiniLibX
 MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
-# For macOS:
-# MLX_FLAGS = -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
 
 # Règles
-.PHONY: all clean fclean re libft_clean libft_fclean
+.PHONY: all clean fclean re libft_clean libft_fclean mlx_clean mlx_fclean
 
 # Compilation principale
 all: $(LIBFT) $(MLX) $(NAME)
@@ -60,43 +57,13 @@ $(LIBFT):
 
 # Compile le projet fdf
 $(NAME): $(OBJ_FILES) $(MLX)
-	@echo "$(GREEN)🚀 Compilation de $(NAME)...$(RESET)"
+	@printf "\r$(GREEN)🚀 Compilation de $(NAME)...                                           $(RESET)"
 	@$(CC) $(OBJ_FILES) $(CFLAGS) $(MLX_FLAGS) -L$(LIBFT_DIR) -lft -o $(NAME)
-	@echo "$(YELLOW)🚀 Compilation fini ! $(GREEN)$(NAME) $(YELLOW)est prêt !$(RESET)"
-info: header
-
-define HEADER
-
-
- ________ ___  ___       _______           ________  _______           ________ _______   ________                        
-|\  _____\\  \|\  \     |\  ___ \         |\   ___ \|\  ___ \         |\  _____\\  ___ \ |\   __  \                       
-\ \  \__/\ \  \ \  \    \ \   __/|        \ \  \_|\ \ \   __/|        \ \  \__/\ \   __/|\ \  \|\  \        ____________  
- \ \   __\\\  \ \  \    \ \  \_|/__         \  \ \\ \ \  \_|/__        \ \   __\\ \  \_|/_\ \   _  _\      |\____________\\
-  \ \  \_| \ \  \ \  \____\ \  \_|\ \       \ \  \_\\ \ \  \_|\ \       \ \  \_| \ \  \_|\ \ \  \\  \|     \|____________|
-   \ \__\   \ \__\ \_______\ \_______\       \ \_______\ \_______\       \ \__\   \ \_______\ \__\\ _\                    
-    \|__|    \|__|\|_______|\|_______|        \|_______|\|_______|        \|__|    \|_______|\|__|\|__|                   
-                                                                                                                          
-                                                                                                                          
-	
- ___  ___  ________ ________  ___       ________  ________  ________   _______                                            
-|\  \|\  \|\  _____\\   __  \|\  \     |\_____  \|\   __  \|\   ___  \|\  ___ \                                           
-\ \  \\\  \ \  \__/\ \  \|\  \ \  \     \|___/  /\ \  \|\  \ \  \\ \  \ \   __/|                                          
- \ \  \\\  \ \   __ \\ \   __  \ \  \        /  / /\ \  \\\   \ \  \\ \  \ \  \_|/__                                        
-  \ \  \\\  \ \   \_| \\ \  \ \  \ \  \____  /  /_/__\ \  \\\  \ \  \\ \  \ \  \_|\ \                                       
-   \ \_______\ \__\   \ \__\ \__\ \_______\\________\ \_______\ \__\\ \__\ \_______\                                      
-    \|_______|\|__|    \|__|\|__|\|_______|\|_______|\|_______|\|__| \|__|\|_______|                                      
-
-
-endef
-export HEADER
-
-header:
-	clear
-	@echo "$$HEADER"
+	@echo "\n$(YELLOW)🚀 Compilation fini ! $(GREEN)$(NAME) $(YELLOW)est prêt !$(RESET)"
 
 # Compile les fichiers objets
 %.o: %.c
-	@echo "$(CYAN)📝 Compilation de $<...$(RESET)"
+	@printf "\r$(CYAN)📝 Compilation de $<...$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 # Nettoyage des fichiers objets

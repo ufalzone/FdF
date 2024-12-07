@@ -6,23 +6,40 @@
 /*   By: ufalzone <ufalzone@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:40:49 by ufalzone          #+#    #+#             */
-/*   Updated: 2024/12/06 18:02:06 by ufalzone         ###   ########.fr       */
+/*   Updated: 2024/12/07 17:10:48 by ufalzone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 #include "../includes/mlx.h"
 
+int	calculate_optimal_zoom(int map_width, int map_height)
+{
+	int	zoom_width;
+	int	zoom_height;
+	int	zoom;
+
+	zoom_width = (WEIGHT - 400) / map_width;
+	zoom_height = (HEIGHT - 400) / map_height;
+	if (zoom_width < zoom_height)
+		zoom = zoom_width;
+	else
+		zoom = zoom_height;
+	if (zoom < 1)
+		zoom = 1;
+	return (zoom);
+}
+
 static void	init_fdf(t_fdf *fdf, char **av)
 {
 	fdf->map = parse_map(av[1]);
 	fdf->mlx = mlx_init();
-	fdf->win = mlx_new_window(fdf->mlx, WEIGHT, HEIGHT, "test FDF");
-	fdf->zoom = 10;
-	fdf->offset_x = 0;
-	fdf->offset_y = 0;
+	fdf->win = mlx_new_window(fdf->mlx, WEIGHT, HEIGHT, "FDF - ufalzone");
+	fdf->zoom = calculate_optimal_zoom(fdf->map.width, fdf->map.height);
+	fdf->offset_x = (WEIGHT / 3) - ((fdf->map.width * fdf->zoom) / 2);
+	fdf->offset_y = (HEIGHT / 3) - ((fdf->map.height * fdf->zoom) / 2);
 	fdf->is_right_clicked = 0;
-	fdf->angle_iso = 30;
+	fdf->angle_iso = 45;
 	fdf->z_divisor = 1;
 	fdf->angle_x = 0;
 	fdf->angle_y = 0;
@@ -30,6 +47,10 @@ static void	init_fdf(t_fdf *fdf, char **av)
 	fdf->img = mlx_new_image(fdf->mlx, WEIGHT, HEIGHT);
 	fdf->addr = mlx_get_data_addr(fdf->img, &fdf->bits_per_pixel,
 			&fdf->size_line, &fdf->endian);
+	fdf->center_x = (fdf->map.width * fdf->zoom) / 2.0;
+	fdf->center_y = (fdf->map.height * fdf->zoom) / 2.0;
+	fdf->center_z = (fdf->map.z_max * fdf->zoom) / 2.0;
+	fdf->projection_type = 1;
 }
 
 static void	init_hooks(t_fdf *fdf)

@@ -6,7 +6,7 @@
 /*   By: ufalzone <ufalzone@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 21:31:37 by ufalzone          #+#    #+#             */
-/*   Updated: 2024/11/29 20:48:16 by ufalzone         ###   ########.fr       */
+/*   Updated: 2024/12/06 17:10:05 by ufalzone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void				ft_putendl_fd(char *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
 void				ft_putstr_fd(char *s, int fd);
 char				**ft_split(char const *s, char c);
+void				free_split(char **split);
 char				*ft_strchr(const char *s, int c);
 char				*ft_strdup(const char *source);
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));

@@ -6,11 +6,14 @@
 /*   By: ufalzone <ufalzone@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 16:58:39 by ufalzone          #+#    #+#             */
-/*   Updated: 2024/12/06 18:02:09 by ufalzone         ###   ########.fr       */
+/*   Updated: 2024/12/07 17:35:50 by ufalzone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
+#include <stdlib.h>
+
+#define ROTATION_SPEED 5
 
 /* Controles clavier:
 **
@@ -42,11 +45,6 @@
 ** ESC (65307) : Ferme la fenêtre
 */
 
-int	close_window(void)
-{
-	exit(0);
-}
-
 // Gere les mouvements avec les fleches et WASD
 static void	key_movement(int keycode, t_fdf *fdf)
 {
@@ -69,6 +67,21 @@ static void	key_zoom_and_z(int keycode, t_fdf *fdf)
 		fdf->zoom -= 1;
 	else if (keycode == 112)
 		fdf->z_divisor += 1;
+	else if (keycode == 49)
+	{
+		fdf->projection_type = 0;
+		fdf->angle_iso = 0;
+	}
+	else if (keycode == 50)
+	{
+		fdf->projection_type = 0;
+		fdf->angle_iso = 30;
+	}
+	else if (keycode == 51)
+	{
+		fdf->projection_type = 1;
+		fdf->angle_iso = 45;
+	}
 	else if (keycode == 113 || keycode == 111)
 		if (fdf->z_divisor > 1)
 			fdf->z_divisor -= 1;
@@ -78,15 +91,11 @@ static void	key_zoom_and_z(int keycode, t_fdf *fdf)
 static void	key_rotation(int keycode, t_fdf *fdf)
 {
 	if (keycode == 120)
-		fdf->angle_x += 0.5;
+		fdf->angle_x += ROTATION_SPEED;
 	else if (keycode == 121)
-		fdf->angle_y += 0.5;
+		fdf->angle_y += ROTATION_SPEED;
 	else if (keycode == 122)
-		fdf->angle_z += 0.5;
-	else if (keycode == 49)
-		fdf->angle_iso = 0;
-	else if (keycode == 50)
-		fdf->angle_iso = 30;
+		fdf->angle_z += ROTATION_SPEED;
 	if (fdf->angle_x > 360)
 		fdf->angle_x = 0;
 	if (fdf->angle_y > 360)
@@ -98,25 +107,26 @@ static void	key_rotation(int keycode, t_fdf *fdf)
 // Réinitialise tous les paramètres
 static void	key_reset(t_fdf *fdf)
 {
-	fdf->offset_x = 0;
-	fdf->offset_y = 0;
-	fdf->zoom = 20;
+	fdf->offset_x = (WEIGHT / 2) - ((fdf->map.width * fdf->zoom) / 2);
+	fdf->offset_y = (HEIGHT / 2) - ((fdf->map.height * fdf->zoom) / 2);
+	fdf->zoom = calculate_optimal_zoom(fdf->map.width, fdf->map.height);
 	fdf->z_divisor = 1;
 	fdf->angle_x = 0;
 	fdf->angle_y = 0;
 	fdf->angle_z = 0;
+	fdf->projection_type = 0;
 	fdf->angle_iso = 30;
 }
 
 int	key_input(int keycode, t_fdf *fdf)
 {
-	if (keycode == 114) // Touche 'R'
+	if (keycode == 114)
 		key_reset(fdf);
 	key_movement(keycode, fdf);
 	key_zoom_and_z(keycode, fdf);
 	key_rotation(keycode, fdf);
 	if (keycode == 65307)
-		close_window();
+		exit(0);
 	draw_all_lines(fdf);
 	return (0);
 }

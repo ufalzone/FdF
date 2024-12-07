@@ -6,7 +6,7 @@
 /*   By: ufalzone <ufalzone@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 20:47:11 by ufalzone          #+#    #+#             */
-/*   Updated: 2024/12/05 18:13:23 by ufalzone         ###   ########.fr       */
+/*   Updated: 2024/12/07 17:44:33 by ufalzone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,38 @@ typedef struct s_fdf {
 	float		angle_x;		// Angle de rotation en X
 	float		angle_y;		// Angle de rotation en Y
 	int		z_divisor;		// Diviseur de l'altitude
-	int	projection_type;	// Type de projection (0 = iso, 1 = perspective)
+	double		center_x;		// Centre de la fenêtre en X
+	double		center_y;		// Centre de la fenêtre en Y
+	double		center_z;		// Centre de la fenêtre en Z
+	int		projection_type;	// Type de projection (0 = iso, 1 = perspective)
 
 }	t_fdf;
 
-
+//Parsing
 t_map	parse_map(char *filename);
 int		get_color(t_map *map, int x);
+void	check_file(char *filename);
+void	get_z_min_max(t_map *map, char *filename);
+void	print_progress(int current, int total, int points);
+
+//Draw
+void	draw_all_lines(t_fdf *fdf);
+void	trace_line(t_fdf *fdf, t_point start, t_point end);
+
+//Input
+int		key_input(int keycode, t_fdf *fdf);
+int		close_window(void);
+int		mouse_pressed(int button, int x, int y, t_fdf *fdf);
+int		mouse_released(int button, int x, int y, t_fdf *fdf);
+int		deplacement_mouse(int x, int y, t_fdf *fdf);
+
+//Rotate
+void	rotate_x(t_fdf *fdf, t_point *point);
+void	rotate_y(t_fdf *fdf, t_point *point);
+void	rotate_z(t_fdf *fdf, t_point *point);
+
+// Autres prototypes
+void	display_controls(t_fdf *fdf);
+int		calculate_optimal_zoom(int map_width, int map_height);
+
 #endif
