@@ -6,7 +6,7 @@
 /*   By: ufalzone <ufalzone@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:28:58 by ufalzone          #+#    #+#             */
-/*   Updated: 2024/12/07 17:46:17 by ufalzone         ###   ########.fr       */
+/*   Updated: 2024/12/08 18:57:06 by ufalzone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,7 @@ static t_map	fill_map(t_map map, char *filename)
 		split = ft_split(line, ' ');
 		process_line(&map, split, j, &total_points);
 		print_progress(j + 1, map.height, total_points);
-		free(line);
-		free_split(split);
+		clean_free(split, line);
 		j++;
 		line = get_next_line(fd);
 	}

@@ -6,7 +6,7 @@
 /*   By: ufalzone <ufalzone@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 20:47:11 by ufalzone          #+#    #+#             */
-/*   Updated: 2024/12/07 17:44:33 by ufalzone         ###   ########.fr       */
+/*   Updated: 2024/12/08 18:56:26 by ufalzone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,7 @@ void	rotate_z(t_fdf *fdf, t_point *point);
 // Autres prototypes
 void	display_controls(t_fdf *fdf);
 int		calculate_optimal_zoom(int map_width, int map_height);
+int		error_close_window(int error, char *filename);
+void	clean_free(char **split, char *line);
 
 #endif

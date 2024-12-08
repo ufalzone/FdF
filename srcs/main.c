@@ -6,7 +6,7 @@
 /*   By: ufalzone <ufalzone@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:40:49 by ufalzone          #+#    #+#             */
-/*   Updated: 2024/12/07 17:10:48 by ufalzone         ###   ########.fr       */
+/*   Updated: 2024/12/08 18:55:41 by ufalzone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ static void	init_fdf(t_fdf *fdf, char **av)
 	fdf->offset_y = (HEIGHT / 3) - ((fdf->map.height * fdf->zoom) / 2);
 	fdf->is_right_clicked = 0;
 	fdf->angle_iso = 45;
-	fdf->z_divisor = 1;
+	fdf->z_divisor = (fdf->map.z_max * 4) / (fdf->map.width + fdf->map.height);
+	if (fdf->z_divisor < 1)
+		fdf->z_divisor = 1;
 	fdf->angle_x = 0;
 	fdf->angle_y = 0;
 	fdf->angle_z = 0;
@@ -67,7 +69,7 @@ int	main(int ac, char **av)
 	t_fdf	fdf;
 
 	if (ac != 2)
-		return (ft_printf("Utilisation: ./fdf <nom du fichier>"));
+		error_close_window(5, av[1]);
 	init_fdf(&fdf, av);
 	draw_all_lines(&fdf);
 	init_hooks(&fdf);

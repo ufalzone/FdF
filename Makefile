@@ -6,7 +6,7 @@
 #    By: ufalzone <ufalzone@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/30 18:16:42 by ufalzone          #+#    #+#              #
-#    Updated: 2024/12/07 17:46:44 by ufalzone         ###   ########.fr        #
+#    Updated: 2024/12/08 18:54:34 by ufalzone         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,12 +28,23 @@ INCLUDE_DIR = includes
 MLX_DIR = minilibx
 
 # Fichiers sources et objets
-SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
+SRC_FILES = srcs/bresenham.c \
+			srcs/draw.c \
+			srcs/parsing.c \
+			srcs/utils.c \
+			srcs/color.c \
+			srcs/keyboard_input.c \
+			srcs/rotate.c \
+			srcs/display_controls.c \
+			srcs/mouse_input.c \
+			srcs/parsing2.c \
+			srcs/main.c
+			
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
 # Flags de compilation
 CC = cc
-CFLAGS =  -Wall -Wextra -Werror -I$(INCLUDE_DIR) -I$(MLX_DIR) -g -O3
+CFLAGS = -I$(INCLUDE_DIR) -I$(MLX_DIR) -g -O0
 LDFLAGS = -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
 
 # Librairie libft
