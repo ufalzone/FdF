@@ -25,7 +25,7 @@ NAME = fdf
 SRC_DIR = srcs
 LIBFT_DIR = libft
 INCLUDE_DIR = includes
-MLX_DIR = minilibx
+MLX_DIR = minilibx-linux
 
 # Fichiers sources et objets
 SRC_FILES = srcs/bresenham.c \
