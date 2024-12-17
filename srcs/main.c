@@ -6,7 +6,7 @@
 /*   By: ufalzone <ufalzone@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:40:49 by ufalzone          #+#    #+#             */
-/*   Updated: 2024/12/08 18:55:41 by ufalzone         ###   ########.fr       */
+/*   Updated: 2024/12/17 03:03:21 by ufalzone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	init_hooks(t_fdf *fdf)
 	mlx_hook(fdf->win, 4, (1L << 2), &mouse_pressed, fdf);
 	mlx_hook(fdf->win, 5, (1L << 3), &mouse_released, fdf);
 	mlx_hook(fdf->win, 6, (1L << 6), &deplacement_mouse, fdf);
-	mlx_hook(fdf->win, 17, 0, &close_window, NULL);
+	mlx_hook(fdf->win, 17, 0, &close_window, fdf);
 }
 
 int	main(int ac, char **av)

@@ -6,7 +6,7 @@
 /*   By: ufalzone <ufalzone@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 16:58:39 by ufalzone          #+#    #+#             */
-/*   Updated: 2024/12/07 19:08:18 by ufalzone         ###   ########.fr       */
+/*   Updated: 2024/12/17 03:04:55 by ufalzone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int	key_input(int keycode, t_fdf *fdf)
 	key_zoom_and_z(keycode, fdf);
 	key_rotation(keycode, fdf);
 	if (keycode == 65307)
-		exit(0);
+		close_window(fdf);
 	draw_all_lines(fdf);
 	return (0);
 }

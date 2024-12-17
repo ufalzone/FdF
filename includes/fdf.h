@@ -6,7 +6,7 @@
 /*   By: ufalzone <ufalzone@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 20:47:11 by ufalzone          #+#    #+#             */
-/*   Updated: 2024/12/08 18:56:26 by ufalzone         ###   ########.fr       */
+/*   Updated: 2024/12/17 03:08:31 by ufalzone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	trace_line(t_fdf *fdf, t_point start, t_point end);
 
 //Input
 int		key_input(int keycode, t_fdf *fdf);
-int		close_window(void);
+int		close_window(t_fdf *fdf);
 int		mouse_pressed(int button, int x, int y, t_fdf *fdf);
 int		mouse_released(int button, int x, int y, t_fdf *fdf);
 int		deplacement_mouse(int x, int y, t_fdf *fdf);
@@ -97,6 +97,11 @@ int		deplacement_mouse(int x, int y, t_fdf *fdf);
 void	rotate_x(t_fdf *fdf, t_point *point);
 void	rotate_y(t_fdf *fdf, t_point *point);
 void	rotate_z(t_fdf *fdf, t_point *point);
+
+//Utils
+void	free_split(char **split);
+void	free_map(t_map *map);
+int		close_window(t_fdf *fdf);
 
 // Autres prototypes
 void	display_controls(t_fdf *fdf);

@@ -6,15 +6,45 @@
 /*   By: ufalzone <ufalzone@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 17:42:38 by ufalzone          #+#    #+#             */
-/*   Updated: 2024/12/08 18:58:10 by ufalzone         ###   ########.fr       */
+/*   Updated: 2024/12/17 03:08:00 by ufalzone         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 #include <unistd.h>
 
-int	close_window(void)
+void	free_map(t_map *map)
 {
+	int	i;
+
+	if (map && map->grid)
+	{
+		i = 0;
+		while (i < map->height)
+		{
+			if (map->grid[i])
+				free(map->grid[i]);
+			i++;
+		}
+		free(map->grid);
+	}
+}
+
+int	close_window(t_fdf *fdf)
+{
+	if (fdf)
+	{
+		if (fdf->img)
+			mlx_destroy_image(fdf->mlx, fdf->img);
+		if (fdf->win)
+			mlx_destroy_window(fdf->mlx, fdf->win);
+		if (fdf->mlx)
+		{
+			mlx_destroy_display(fdf->mlx);
+			free(fdf->mlx);
+		}
+		free_map(&fdf->map);
+	}
 	exit(0);
 }
 
