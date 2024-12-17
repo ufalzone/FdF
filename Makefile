@@ -44,7 +44,7 @@ OBJ_FILES = $(SRC_FILES:.c=.o)
 
 # Flags de compilation
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I$(INCLUDE_DIR) -I$(MLX_DIR) -g -O3
+CFLAGS = -Wall -Wextra -Werror -I$(INCLUDE_DIR) -I$(MLX_DIR) -O3
 LDFLAGS = -L$(LIBFT_DIR) -lft -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
 
 # Librairie libft
