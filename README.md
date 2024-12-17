@@ -111,9 +111,9 @@ Le projet **FdF** a été développé dans le cadre du cursus de l'école **42**
 - **Manipulations en temps réel** : déplacement, zoom, rotation, et modification de la hauteur.
 - **Support complet des projections parallèles et isométriques.**
 
-### 🌟 Note obtenue : **125/100**
+### 🌟 Note obtenue : 
 
-Ce score récompense l'attention portée aux détails, à la performance et à la qualité du code.
+<img src="https://github.com/ufalzone/FdF/blob/main/imgs/fdf_grade.png?raw=true" alt="Note" />
 
 ---
 
