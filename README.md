@@ -4,9 +4,19 @@
 
 ---
 
+## 🛠️ Installation sur Linux
+
+Pour installer et compiler le projet, exécutez les commandes suivantes :
+
+```bash
+sudo apt-get install gcc make xorg libxext-dev libbsd-dev
+```
+
+---
+
 ## 🖼 Aperçu Visuel
 
-![Aperçu de FdF](https://user-images.githubusercontent.com/xxxxxxx/placeholder-image.png)
+<img src="https://github.com/ufalzone/FdF/blob/main/imgs/view-1.png?raw=true" alt="FdF Wireframe Visualization" width="100%">
 
 ---
 
@@ -45,31 +55,32 @@ Pour compiler et exécuter ce projet, vous aurez besoin de :
 ### Controles clavier:
 
 #### **Déplacements:**
-- ← ou A (**65361/97**)  : Déplacement vers la gauche
-- → ou D (**65363/100**) : Déplacement vers la droite
-- ↑ ou W (**65362/119**) : Déplacement vers le haut
-- ↓ ou S (**65364/115**) : Déplacement vers le bas
+- ← ou A : Déplacement vers la gauche
+- → ou D : Déplacement vers la droite
+- ↑ ou W : Déplacement vers le haut
+- ↓ ou S : Déplacement vers le bas
 
 #### **Zoom:**
-- `+` (**61**) : Zoom avant
-- `-` (**45**) : Zoom arrière
+- `+` : Zoom avant
+- `-` : Zoom arrière
 
 #### **Hauteur (axe Z):**
-- P (**112**)      : Augmente la hauteur
-- O / Q (**111/113**) : Diminue la hauteur
+- P : Augmente la hauteur
+- O  : Diminue la hauteur
 
 #### **Rotation:**
-- X (**120**) : Rotation autour de l'axe X
-- Y (**121**) : Rotation autour de l'axe Y
-- Z (**122**) : Rotation autour de l'axe Z
+- X : Rotation autour de l'axe X
+- Y : Rotation autour de l'axe Y
+- Z : Rotation autour de l'axe Z
 
 #### **Projection:**
-- 1 (**49**) : Vue parallèle (angle_iso = 0)
-- 2 (**50**) : Vue isométrique (angle_iso = 30)
+- 0 : Vue plate
+- 1 : Vue parallèle
+- 2 : Vue isométrique
 
 #### **Contrôles:**
-- R (**114**)     : Réinitialise tous les paramètres
-- ESC (**65307**) : Ferme la fenêtre
+- R : Réinitialise tous les paramètres
+- ESC : Ferme la fenêtre
 
 ---
 
@@ -119,7 +130,7 @@ Le projet **FdF** a été développé dans le cadre du cursus de l'école **42**
 
 ## 📚 Crédits
 
-Développé par **[Ton Nom]** dans le cadre du projet **FdF** de l'école **42**.
+Développé par **Ugo** dans le cadre du projet **FdF** de l'école **42**.
 
 ---
 
